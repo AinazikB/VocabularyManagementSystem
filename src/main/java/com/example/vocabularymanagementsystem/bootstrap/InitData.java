@@ -5,7 +5,6 @@ import com.example.vocabularymanagementsystem.entity.Word;
 import com.example.vocabularymanagementsystem.enums.WordStatus;
 import com.example.vocabularymanagementsystem.repositories.LearnerRepository;
 import com.example.vocabularymanagementsystem.repositories.WordRepository;
-import com.example.vocabularymanagementsystem.services.LearnerService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

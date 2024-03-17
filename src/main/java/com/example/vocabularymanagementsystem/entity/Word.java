@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "word")
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,6 @@ public class Word {
     private WordStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "learner_id")
     @JsonIgnore
     private Learner learner;
 }
