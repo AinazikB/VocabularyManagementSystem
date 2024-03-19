@@ -37,7 +37,8 @@ public class InitData {
         initLearners();
         initWords();
     }
-    private  void initWords(){
+
+    private void initWords() {
         try {
             Reader reader = new FileReader(new ClassPathResource("words.csv").getFile());
             CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
@@ -62,6 +63,7 @@ public class InitData {
             e.printStackTrace();
         }
     }
+
     private void initLearners() {
         try {
             Reader reader = new FileReader(new ClassPathResource("learner.csv").getFile());

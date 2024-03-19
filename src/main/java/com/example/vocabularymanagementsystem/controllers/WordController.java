@@ -38,4 +38,5 @@ public class WordController {
     public void deleteWord(@PathVariable Long id) {
         wordService.deleteWord(id);
     }
+
 }

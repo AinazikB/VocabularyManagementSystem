@@ -9,4 +9,3 @@ public class VocabularyManagementSystemApplication {
         SpringApplication.run(VocabularyManagementSystemApplication.class, args);
     }
 }
-
