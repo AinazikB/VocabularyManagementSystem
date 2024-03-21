@@ -3,6 +3,7 @@ package com.example.vocabularymanagementsystem.controllers;
 import com.example.vocabularymanagementsystem.entity.Learner;
 import com.example.vocabularymanagementsystem.services.LearnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,9 +49,11 @@ public class LearnerController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLearner(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLearner(@PathVariable Long id) {
         learnerService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
+
 }
 
 
