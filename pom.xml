@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>1.9.0</version> <!-- Adjust version as needed -->
+            <version>1.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -80,7 +80,6 @@
             <version>1.4.2.Final</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
