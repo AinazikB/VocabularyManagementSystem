@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 @RestController
 @RequestMapping("/learners")
+@Api(tags = "Learner Management", description = "Endpoints for managing learners")
 public class LearnerController {
 
     private final LearnerService learnerService;
@@ -21,23 +26,28 @@ public class LearnerController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all learners", response = List.class)
     public List<Learner> getAllLearners() {
         return learnerService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Learner getLearnerById(@PathVariable Long id) {
+    @ApiOperation(value = "Get a learner by ID", response = Learner.class)
+    public Learner getLearnerById(@PathVariable @ApiParam(value = "Learner ID", example = "1") Long id) {
         Optional<Learner> learnerOptional = learnerService.findById(id);
         return learnerOptional.orElseThrow(() -> new RuntimeException("Learner not found with id: " + id));
     }
 
     @PostMapping
-    public Learner createLearner(@RequestBody Learner learner) {
+    @ApiOperation(value = "Create a new learner", response = Learner.class)
+    public Learner createLearner(@RequestBody @ApiParam(value = "New learner details") Learner learner) {
         return learnerService.save(learner);
     }
 
     @PutMapping("/{id}")
-    public Learner updateLearner(@PathVariable Long id, @RequestBody Learner learner) {
+    @ApiOperation(value = "Update an existing learner", response = Learner.class)
+    public Learner updateLearner(@PathVariable @ApiParam(value = "Learner ID", example = "1") Long id,
+                                 @RequestBody @ApiParam(value = "Updated learner details") Learner learner) {
         Optional<Learner> existingLearnerOptional = learnerService.findById(id);
         Learner existingLearner = existingLearnerOptional.orElseThrow(() -> new RuntimeException("Learner not found with id: " + id));
 
@@ -49,11 +59,10 @@ public class LearnerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLearner(@PathVariable Long id) {
+    @ApiOperation(value = "Delete a learner by ID")
+    public ResponseEntity<Void> deleteLearner(@PathVariable @ApiParam(value = "Learner ID", example = "1") Long id) {
         learnerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
 }
-
-
