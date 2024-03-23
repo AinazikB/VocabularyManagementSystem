@@ -1,4 +1,4 @@
-package com.example.vocabularymanagementsystem;
+package com.example.vocabularymanagementsystem.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +15,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .host("localhost:8080"); // Set the base URL manually
     }
 }
