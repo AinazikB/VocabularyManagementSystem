@@ -5,16 +5,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Word {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wordId;
@@ -33,6 +32,6 @@ public class Word {
     private WordStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "learner_id", nullable = false)
+    @JoinColumn(name = "learner_id")
     private Learner learner;
 }

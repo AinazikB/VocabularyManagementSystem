@@ -1,15 +1,18 @@
 package com.example.vocabularymanagementsystem.bootstrap;
 
 import com.example.vocabularymanagementsystem.entity.Learner;
+import com.example.vocabularymanagementsystem.entity.UserRole;
 import com.example.vocabularymanagementsystem.entity.Word;
 import com.example.vocabularymanagementsystem.enums.WordStatus;
 import com.example.vocabularymanagementsystem.repositories.LearnerRepository;
 import com.example.vocabularymanagementsystem.repositories.WordRepository;
+import lombok.Builder;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,12 +21,15 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
+@Builder
 public class InitData {
 
     private final WordRepository wordRepository;
     private final LearnerRepository learnerRepository;
+   // private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public InitData(WordRepository wordRepository, LearnerRepository learnerRepository) {
@@ -34,7 +40,9 @@ public class InitData {
     @PostConstruct
     public void init() {
 
-        initLearners();
+      /*  if (learnerRepository.count() == 0) {
+            initDefaultUsers();
+        }*/
         initWords();
     }
 
@@ -63,25 +71,28 @@ public class InitData {
             e.printStackTrace();
         }
     }
+ /*   private void initDefaultUsers() {
+        Learner learner = Learner.builder()
+                .username("user")
+                .password(passwordEncoder.encode("password"))
+                .email("user@example.com")
+                .roles(Set.of(UserRole.user))
+                .build();
 
-    private void initLearners() {
-        try {
-            Reader reader = new FileReader(new ClassPathResource("learner.csv").getFile());
-            CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
+        Learner staff = Learner.builder()
+                .username("staff")
+                .password(passwordEncoder.encode("password"))
+                .email("staff@example.com")
+                .roles(Set.of(UserRole.staff))
+                .build();
 
-            List<Learner> learners = new ArrayList<>();
-            for (CSVRecord record : csvParser) {
-                Learner learner = new Learner();
-                learner.setUsername(record.get("username"));
-                learner.setEmail(record.get("email"));
-                learner.setPassword(record.get("password"));
+        Learner admin = Learner.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("password"))
+                .email("admin@example.com")
+                .roles(Set.of(UserRole.admin, UserRole.staff))
+                .build();
 
-                learners.add(learner);
-            }
-
-            learnerRepository.saveAll(learners);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        learnerRepository.saveAll(List.of(user, staff, admin));
+    }*/
 }

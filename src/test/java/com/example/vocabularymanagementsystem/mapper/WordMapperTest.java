@@ -5,77 +5,53 @@ import com.example.vocabularymanagementsystem.entity.Word;
 import com.example.vocabularymanagementsystem.enums.WordStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 public class WordMapperTest {
 
-    @Mock
     private WordMapper wordMapper;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setUp() {
+        wordMapper = Mappers.getMapper(WordMapper.class);
     }
 
     @Test
-    public void testWordToDtoMapping() {
-        // Create a Word entity with some values
-        Word word = new Word();
-        word.setOriginalWord("hello");
-        word.setTranslation("hola");
-        word.setDifficultyLevel("Easy");
-        word.setStatus(WordStatus.NEW); // Use the enum value
+    public void testWordToDto() {
+        Word entity = new Word();
+        entity.setWordId(1L);
+        entity.setOriginalWord("Test");
+        entity.setTranslation("Тест");
+        entity.setDifficultyLevel("Medium");
+        entity.setStatus(WordStatus.NEW);
 
-        // Create a WordDTO manually with the same values
-        WordDTO expectedDto = new WordDTO();
-        expectedDto.setOriginalWord("hello");
-        expectedDto.setTranslation("hola");
-        expectedDto.setDifficultyLevel("Easy");
-        expectedDto.setStatus("NEW"); // Use the enum value
+        WordDTO dto = wordMapper.wordToDto(entity);
+        dto.setStatus(WordStatus.NEW.name());
 
-        // Define behavior for the mock
-        when(wordMapper.wordToDto(word)).thenReturn(expectedDto);
-
-        // Perform the mapping
-        WordDTO mappedDTO = wordMapper.wordToDto(word);
-
-        // Assert that the mapping produced the expected result
-        assertEquals(expectedDto.getOriginalWord(), mappedDTO.getOriginalWord());
-        assertEquals(expectedDto.getTranslation(), mappedDTO.getTranslation());
-        assertEquals(expectedDto.getDifficultyLevel(), mappedDTO.getDifficultyLevel());
-        assertEquals(expectedDto.getStatus(), mappedDTO.getStatus());
+        assertEquals(entity.getWordId(), dto.getWordId());
+        assertEquals(entity.getOriginalWord(), dto.getOriginalWord());
+        assertEquals(entity.getTranslation(), dto.getTranslation());
+        assertEquals(entity.getDifficultyLevel(), dto.getDifficultyLevel());
+        assertEquals(WordStatus.NEW.name(), dto.getStatus());
     }
 
     @Test
-    public void testDtoToWordMapping() {
-        // Create a WordDTO with some values
-        WordDTO wordDTO = new WordDTO();
-        wordDTO.setOriginalWord("hello");
-        wordDTO.setTranslation("hola");
-        wordDTO.setDifficultyLevel("Easy");
-        wordDTO.setStatus("NEW"); // Use the enum value
+    public void testDtoToWord() {
+        WordDTO dto = new WordDTO();
+        dto.setWordId(1L);
+        dto.setOriginalWord("Test");
+        dto.setTranslation("Тест");
+        dto.setDifficultyLevel("Medium");
+        dto.setStatus(WordStatus.NEW.name());
 
-        // Create a Word entity manually with the same values
-        Word expectedWord = new Word();
-        expectedWord.setOriginalWord("hello");
-        expectedWord.setTranslation("hola");
-        expectedWord.setDifficultyLevel("Easy");
-        expectedWord.setStatus(WordStatus.NEW); // Use the enum value
+        Word entity = wordMapper.dtoToWord(dto);
 
-        // Define behavior for the mock
-        when(wordMapper.dtoToWord(wordDTO)).thenReturn(expectedWord);
-
-        // Perform the mapping
-        Word mappedWord = wordMapper.dtoToWord(wordDTO);
-
-        // Assert that the mapping produced the expected result
-        assertEquals(expectedWord.getOriginalWord(), mappedWord.getOriginalWord());
-        assertEquals(expectedWord.getTranslation(), mappedWord.getTranslation());
-        assertEquals(expectedWord.getDifficultyLevel(), mappedWord.getDifficultyLevel());
-        assertEquals(expectedWord.getStatus(), mappedWord.getStatus());
+        assertEquals(dto.getWordId(), entity.getWordId());
+        assertEquals(dto.getOriginalWord(), entity.getOriginalWord());
+        assertEquals(dto.getTranslation(), entity.getTranslation());
+        assertEquals(dto.getDifficultyLevel(), entity.getDifficultyLevel());
+        assertEquals(WordStatus.NEW, WordStatus.valueOf(dto.getStatus()));
     }
 }
