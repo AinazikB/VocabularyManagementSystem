@@ -1,2 +1,4 @@
-package com.example.vocabularymanagementsystem.services;public class JWTUtils {
+package com.example.vocabularymanagementsystem.services;
+
+public class JWTUtils {
 }
