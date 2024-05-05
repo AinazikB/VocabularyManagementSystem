@@ -1,6 +1,8 @@
 package com.example.vocabularymanagementsystem.controllers;
 
+import com.example.vocabularymanagementsystem.dto.ReqRes;
 import com.example.vocabularymanagementsystem.entity.Learner;
+import com.example.vocabularymanagementsystem.services.AuthService;
 import com.example.vocabularymanagementsystem.services.LearnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +16,29 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping("/learners")
-@Api(tags = "Learner Management", description = "Endpoints for managing learners")
+@RequestMapping("/auth")
+
 public class LearnerController {
 
-    private final LearnerService learnerService;
+    @Autowired
+    private AuthService authService;
+    @PostMapping("/signup")
+    public ResponseEntity<ReqRes> signUp(@RequestBody ReqRes signUpRequest){
+        return ResponseEntity.ok(authService.signUp(signUpRequest));
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<ReqRes> signIn(@RequestBody ReqRes signInRequest){
+        return ResponseEntity.ok(authService.signUp(signInRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes refreshToken){
+        return ResponseEntity.ok(authService.signUp(refreshToken));
+    }
+
+
+   /* private final LearnerService learnerService;
 
     @Autowired
     public LearnerController(LearnerService learnerService) {
@@ -63,6 +83,6 @@ public class LearnerController {
     public ResponseEntity<Void> deleteLearner(@PathVariable @ApiParam(value = "Learner ID", example = "1") Long id) {
         learnerService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 
 }
