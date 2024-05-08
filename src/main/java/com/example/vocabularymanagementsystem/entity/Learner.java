@@ -26,13 +26,10 @@ public class Learner implements UserDetails{
 
     @OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Word> words = new ArrayList<>();
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;

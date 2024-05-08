@@ -19,9 +19,9 @@ public class LearnerService implements UserDetailsService {
     private LearnerRepository learnerRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Learner> learnerOptional = learnerRepository.findByUsername(username);
-        return learnerOptional.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Learner> learnerOptional = learnerRepository.findLearnerByEmail(email);
+        return learnerOptional.orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
    /* @Autowired

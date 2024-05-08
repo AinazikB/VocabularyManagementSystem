@@ -2,6 +2,7 @@ package com.example.vocabularymanagementsystem.controllers;
 
 import com.example.vocabularymanagementsystem.dto.ReqRes;
 import com.example.vocabularymanagementsystem.entity.Word;
+import com.example.vocabularymanagementsystem.enums.WordStatus;
 import com.example.vocabularymanagementsystem.repositories.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,10 @@ public class AdminUsers {
     @PostMapping("/admin/savewords")
     public ResponseEntity<Object> signUp(@RequestBody ReqRes wordsRequest){
         Word wordsToSave = new Word();
-        wordsToSave.setOriginalWord(wordsRequest.getUsername());
+        wordsToSave.setOriginalWord(wordsRequest.getOriginalWord());
+        wordsToSave.setTranslation(wordsRequest.getTranslation());
+        wordsToSave.setDifficultyLevel(wordsRequest.getDifficultyLevel());
+        wordsToSave.setStatus(wordsRequest.getStatus());
         return ResponseEntity.ok(wordRepository.save(wordsToSave));
     }
 

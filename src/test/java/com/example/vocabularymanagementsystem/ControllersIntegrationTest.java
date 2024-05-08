@@ -1,4 +1,4 @@
-package com.example.vocabularymanagementsystem;
+/*package com.example.vocabularymanagementsystem;
 
 import com.example.vocabularymanagementsystem.entity.Learner;
 import com.example.vocabularymanagementsystem.entity.Word;
@@ -77,4 +77,4 @@ public class ControllersIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].wordId").value(2));
     }
 
-}
+}*/

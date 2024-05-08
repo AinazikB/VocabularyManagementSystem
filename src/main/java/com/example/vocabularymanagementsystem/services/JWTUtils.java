@@ -18,9 +18,19 @@ public class JWTUtils {
     private SecretKey key;
     private static final long EXPIRATION_TIME = 86400000;
     private JWTUtils(){
-        String secretString = "39480583060986405394304385397367349640843086049869486";
-        byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
-        this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
+        String secretString = "3948058306098640539430438539736734964084308604986343252352365346426424757576576852859486";
+
+        try {
+            // Декодируем строку секретного ключа из Base64 в массив байт
+            byte[] keyBytes = Base64.getDecoder().decode(secretString);
+
+            // Создаем объект SecretKeySpec, используя декодированные байты и алгоритм HMAC SHA-256
+            this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
+        } catch (IllegalArgumentException e) {
+            // Обрабатываем ошибку декодирования (например, некорректная строка Base64)
+            System.err.println("Ошибка декодирования секретного ключа: " + e.getMessage());
+            // Бросаем исключение или обрабатываем соответственно логике вашего приложения
+        }
     }
 
     public String generatedToken(UserDetails userDetails){

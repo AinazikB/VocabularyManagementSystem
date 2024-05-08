@@ -1,10 +1,3 @@
 originalWord,translation,difficultyLevel,learnerId
 hello,hola,Medium,1
-goodbye,adiós,Medium,1
-cat,gato,Easy,2
-dog,perro,Easy,2
-house,casa,Medium,1
-tree,árbol,Hard,3
-sun,sol,Medium,3
-moon,luna,Medium,2
-water,agua,Medium,1
+

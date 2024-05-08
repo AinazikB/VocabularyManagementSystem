@@ -2,6 +2,7 @@ package com.example.vocabularymanagementsystem.dto;
 
 import com.example.vocabularymanagementsystem.entity.Learner;
 import com.example.vocabularymanagementsystem.entity.Word;
+import com.example.vocabularymanagementsystem.enums.WordStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -22,6 +23,10 @@ public class ReqRes {
     private String email;
     private String role;
     private String password;
+    private String originalWord;
+    private String translation;
+    private String difficultyLevel;
+    private WordStatus status;
     private List<Word> words;
     private Learner learner;
 }

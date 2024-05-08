@@ -29,12 +29,12 @@ public class LearnerController {
 
     @PostMapping("/signin")
     public ResponseEntity<ReqRes> signIn(@RequestBody ReqRes signInRequest){
-        return ResponseEntity.ok(authService.signUp(signInRequest));
+        return ResponseEntity.ok(authService.signIn(signInRequest));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes refreshToken){
-        return ResponseEntity.ok(authService.signUp(refreshToken));
+        return ResponseEntity.ok(authService.refreshToken(refreshToken));
     }
 
 

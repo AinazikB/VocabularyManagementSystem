@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 @Service
 public class AuthService {
+
     @Autowired
     private LearnerRepository learnerRepository;
     @Autowired
@@ -28,6 +29,7 @@ public class AuthService {
             learner.setEmail(registrationRequest.getEmail());
             learner.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             learner.setRole(registrationRequest.getRole());
+            learner.setUsername(registrationRequest.getUsername());
             Learner learner1 = learnerRepository.save(learner);
             if (learner1 != null && learner1.getLearnerId()>0){
                 resp.setLearner(learner1);
@@ -45,8 +47,8 @@ public class AuthService {
         ReqRes response = new ReqRes();
 
         try {
-           authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getUsername(), signInRequest.getPassword()));
-           var user = learnerRepository.findByUsername(signInRequest.getUsername()).orElseThrow();
+           authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
+           var user = learnerRepository.findLearnerByEmail(signInRequest.getEmail()).orElseThrow();
            System.out.println("User is: " + user);
            var jwt = jwtUtils.generatedToken(user);
            var refreshToken = jwtUtils.generatedRefreshToken(new HashMap<>(), user);
@@ -64,8 +66,8 @@ public class AuthService {
 
     public ReqRes refreshToken(ReqRes refreshTokenRequest){
         ReqRes response = new ReqRes();
-        String ourUsername = jwtUtils.extractUsername(refreshTokenRequest.getToken());
-        Learner learners =  learnerRepository.findByUsername(ourUsername).orElseThrow();
+        String email = jwtUtils.extractUsername(refreshTokenRequest.getToken());
+        Learner learners =  learnerRepository.findLearnerByEmail(email).orElseThrow();
         if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), learners)){
             var jwt = jwtUtils.generatedToken(learners);
             response.setStatusCode(200);
