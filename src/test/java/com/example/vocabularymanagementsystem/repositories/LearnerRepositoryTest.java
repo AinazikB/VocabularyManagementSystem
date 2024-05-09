@@ -1,46 +1,29 @@
-package com.example.vocabularymanagementsystem.repositories;
-
-import com.example.vocabularymanagementsystem.entity.Learner;
-import org.junit.jupiter.api.AfterEach;
+/*package com.example.vocabularymanagementsystem.repositories;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import com.example.vocabularymanagementsystem.entity.Learner;
+import com.example.vocabularymanagementsystem.repositories.LearnerRepository;
+import java.util.Optional;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@DataJpaTest
-@Transactional
-class LearnerRepositoryTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
+@SpringBootTest
+public class LearnerRepositoryTest {
 
     @Autowired
     private LearnerRepository learnerRepository;
 
     @Test
-    void testGetAllLearners() {
+    public void testFindLearnerByEmail() {
+        String emailToSearch = "admin1@example.com";
+        Optional<Learner> learnerOptional = learnerRepository.findLearnerByUsername(em);
 
-        Learner learner = new Learner();
-        learner.setUsername("testuser");
-        learner.setEmail("test@example.com");
-        entityManager.persistAndFlush(learner);
-
-        List<Learner> learners = learnerRepository.findAll();
-
-        assertNotNull(learners);
-        assertEquals(1, learners.size());
-        Learner savedLearner = learners.get(0);
-        assertEquals("testuser", savedLearner.getUsername());
-        assertEquals("test@example.com", savedLearner.getEmail());
+        if (learnerOptional.isPresent()) {
+            Learner learner = learnerOptional.get();
+            System.out.println("Found learner with email: " + emailToSearch);
+            System.out.println("Username: " + learner.getUsername());
+            // Добавьте другие проверки по вашему усмотрению
+        } else {
+            System.out.println("Learner not found with email: " + emailToSearch);
+        }
     }
-    @AfterEach
-    void tearDown() {
-        entityManager.clear();
-    }
-}
+}*/

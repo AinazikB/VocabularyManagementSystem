@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,27 +14,25 @@ import java.util.function.Function;
 
 @Component
 public class JWTUtils {
-    private SecretKey key;
     private static final long EXPIRATION_TIME = 86400000;
-    private JWTUtils(){
-        String secretString = "3948058306098640539430438539736734964084308604986343252352365346426424757576576852859486";
+    private static final String SECRET_KEY = "3948058306098640539430438539736734964084308604986343252352365346426424757576576852859486";
+    private static final String HMAC_SHA256 = "HmacSHA256";
 
+    private SecretKey key;
+
+    private JWTUtils() {
         try {
-            // Декодируем строку секретного ключа из Base64 в массив байт
-            byte[] keyBytes = Base64.getDecoder().decode(secretString);
-
-            // Создаем объект SecretKeySpec, используя декодированные байты и алгоритм HMAC SHA-256
-            this.key = new SecretKeySpec(keyBytes, "HmacSHA256");
+            byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
+            this.key = new SecretKeySpec(keyBytes, HMAC_SHA256);
         } catch (IllegalArgumentException e) {
-            // Обрабатываем ошибку декодирования (например, некорректная строка Base64)
             System.err.println("Ошибка декодирования секретного ключа: " + e.getMessage());
-            // Бросаем исключение или обрабатываем соответственно логике вашего приложения
         }
     }
 
     public String generatedToken(UserDetails userDetails){
+        String email = userDetails.getUsername();
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)

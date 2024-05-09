@@ -4,31 +4,29 @@ import com.example.vocabularymanagementsystem.dto.ReqRes;
 import com.example.vocabularymanagementsystem.entity.Word;
 import com.example.vocabularymanagementsystem.enums.WordStatus;
 import com.example.vocabularymanagementsystem.repositories.WordRepository;
+import com.example.vocabularymanagementsystem.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AdminUsers {
     @Autowired
     private WordRepository wordRepository;
-
+    @Autowired
+    private AuthService authService;
     @GetMapping("/public/words")
     public ResponseEntity<Object> getAllWords(){
         return ResponseEntity.ok(wordRepository.findAll());
     }
 
     @PostMapping("/admin/savewords")
-    public ResponseEntity<Object> signUp(@RequestBody ReqRes wordsRequest){
-        Word wordsToSave = new Word();
-        wordsToSave.setOriginalWord(wordsRequest.getOriginalWord());
-        wordsToSave.setTranslation(wordsRequest.getTranslation());
-        wordsToSave.setDifficultyLevel(wordsRequest.getDifficultyLevel());
-        wordsToSave.setStatus(wordsRequest.getStatus());
-        return ResponseEntity.ok(wordRepository.save(wordsToSave));
+    public ResponseEntity<Object> saveWords(@RequestBody ReqRes wordsRequest,
+                                            @RequestHeader("Authorization") String token) {
+        token = token.substring(7);
+
+        ReqRes response = authService.saveWord(wordsRequest, token);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/alone")
